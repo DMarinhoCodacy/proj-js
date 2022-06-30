@@ -18,8 +18,8 @@
         "eslint-plugin-jsdoc",
         "eslint-plugin-prefer-arrow",
         "eslint-plugin-react",
-        "@typescript-eslint",
-        "@typescript-eslint/tslint"
+        "@typescript-eslint"
+        //"@typescript-eslint/tslint"
     ],
     "root": true,
     "rules": {
