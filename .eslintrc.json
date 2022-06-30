@@ -19,7 +19,7 @@
         "eslint-plugin-prefer-arrow",
         "eslint-plugin-react",
         "@typescript-eslint",
-        "@typescript-eslint/tslint"
+        "@typescript-eslint/eslint-plugin-tslint"
     ],
     "root": true,
     "rules": {
