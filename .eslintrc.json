@@ -151,15 +151,7 @@
             }
         ],
         "@typescript-eslint/ban-ts-comment": 0,
-        "@typescript-eslint/tslint/config": [
-            "error",
-            {
-                "rules": {
-                    "import-spacing": true,
-                    "whitespace": true
-                }
-            }
-        ],
+        
         "@typescript-eslint/type-annotation-spacing": "error",
         "@typescript-eslint/typedef": "off",
         "@typescript-eslint/unbound-method": "error",
