@@ -1,6 +1,6 @@
-/* eslint-disable */
-import Task from './Task.js';
-import { DateHelper, EventModel } from '@bryntum/schedulerpro/schedulerpro.umd';
+
+//import Task from './Task.js';
+//import { DateHelper, EventModel } from '@bryntum/schedulerpro/schedulerpro.umd';
 
 export default class TaskStore extends EventModel {
   static get defaultConfig () {
