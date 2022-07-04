@@ -1,8 +1,8 @@
 {
-  "name": "typescript-project",
+  "name": "mainapp",
   "version": "1.0.0",
-  "description": "A Typescript project",
-  "main": "./index.js",
+  "description": "",
+  "main": "index.js",
   "scripts": {
     "tsc": "tsc",
     "watch-tsc": "tsc -w",
@@ -17,13 +17,7 @@
     "lint": "tslint --project tsconfig.json --fix",
     "coverage": "tsc && nyc mocha --check leaks --exit",
     "migrate:up-dev": "migrate-mongo up",
-    "migrate:up-test": "migrate-mongo up -f migrate-mongo-config-test.js",
-    "clean": "gts clean",
-    "compile": "tsc",
-    "fix": "gts fix",
-    "prepare": "npm run compile",
-    "pretest": "npm run compile",
-    "posttest": "npm run lint"
+    "migrate:up-test": "migrate-mongo up -f migrate-mongo-config-test.js"
   },
   "keywords": [],
   "author": "",
@@ -46,7 +40,7 @@
     "@types/mocha": "^9.0.0",
     "@types/mocha-prepare": "^0.1.0",
     "@types/morgan": "^1.9.3",
-    "@types/node": "^14.11.2",
+    "@types/node": "^16.11.11",
     "@types/nodemailer": "^6.4.4",
     "@types/number-to-words": "^1.2.1",
     "@types/request-promise": "^4.1.48",
@@ -55,7 +49,6 @@
     "@types/uuid": "^8.3.3",
     "chai": "^4.3.4",
     "concurrently": "^6.4.0",
-    "gts": "^3.1.0",
     "husky": "^7.0.4",
     "lodash": "^4.17.21",
     "mocha": "^9.1.3",
@@ -70,7 +63,7 @@
     "ts-node": "^10.4.0",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^4.0.3"
+    "typescript": "^4.5.2"
   },
   "husky": {
     "hooks": {
