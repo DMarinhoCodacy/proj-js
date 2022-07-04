@@ -1,2 +1,0 @@
-# mainApp
-A JavaScript project
