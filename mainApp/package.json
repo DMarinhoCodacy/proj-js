@@ -1,99 +1,35 @@
 {
-    "name": "mainApp",
+  "name": "mainApp",
   "version": "1.0.0",
   "description": "A JavaScript project",
   "main": "./dist/index.js",
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-      "@istanbuljs/nyc-config-typescript": "^1.0.2",
-      "@types/aws-lambda": "^8.10.85",
-      "@types/aws-serverless-express": "^3.3.5",
-      "@types/chai": "^4.2.22",
-      "@types/chai-http": "^4.2.0",
-      "@types/cors": "^2.8.12",
-      "@types/express": "^4.17.13",
-      "@types/express-session": "^1.17.4",
-      "@types/flat": "5.0.2",
-      "@types/hapi__joi": "^17.1.7",
-      "@types/helmet": "0.0.48",
-      "@types/http-status-codes": "^1.2.0",
-      "@types/keycloak-connect": "^4.5.4",
-      "@types/lodash": "^4.14.177",
-      "@types/mocha": "^9.0.0",
-      "@types/mocha-prepare": "^0.1.0",
-      "@types/morgan": "^1.9.3",
-      "@types/node": "^16.11.11",
-      "@types/nodemailer": "^6.4.4",
-      "@types/number-to-words": "^1.2.1",
-      "@types/request-promise": "^4.1.48",
-      "@types/sanitize-html": "^2.6.0",
-      "@types/supertest": "^2.0.11",
-      "@types/uuid": "^8.3.3",
-      "chai": "^4.3.4",
-      "concurrently": "^6.4.0",
-      "husky": "^7.0.4",
-      "lodash": "^4.17.21",
-      "mocha": "^9.1.3",
-      "mocha-prepare": "^0.1.0",
-      "mongo-unit": "^2.0.1",
-      "nodemon": "^2.0.15",
-      "nyc": "^15.1.0",
-      "prettier": "^2.5.1",
-      "pretty-quick": "^3.1.2",
-      "source-map-support": "^0.5.21",
-      "supertest": "^6.1.6",
-      "ts-node": "^10.4.0",
-      "tslint": "^5.20.1",
-      "tslint-config-prettier": "^1.18.0",
-      "typescript": "^4.5.2"
-    },
-    "husky": {
-      "hooks": {
-        "pre-commit": "npm run pre-commit"
-      }
-    },
-    "dependencies": {
-      "@hapi/joi": "^16.1.7",
-      "aws-lambda": "^1.0.7",
-      "aws-serverless-express": "^3.4.0",
-      "chai-http": "^4.3.0",
-      "cors": "^2.8.5",
-      "dotenv": "^10.0.0",
-      "express": "^4.17.1",
-      "express-session": "^1.17.2",
-      "flat": "^5.0.2",
-      "fuzzball": "^2.1.2",
-      "helmet": "^4.6.0",
-      "http-status-codes": "^2.2.0",
-      "isomorphic-fetch": "^3.0.0",
-      "keycloak-connect": "15.0.2",
-      "moment": "~2.29.1",
-      "mongoose": "^5.12.12",
-      "morgan": "^1.10.0",
-      "nodemailer": "^6.7.2",
-      "npm-check-updates": "^12.0.2",
-      "number-to-words": "^1.2.4",
-      "request": "^2.88.0",
-      "request-promise": "^4.2.5",
-      "sanitize-html": "^2.6.0",
-      "title-case": "^3.0.3",
-      "uuid": "^8.3.2",
-      "wait-for-stuff": "^1.4.0"
-    },
-    "nyc": {
-      "extends": "@istanbuljs/nyc-config-typescript",
-      "all": true,
-      "reporter": [
-        "text",
-        "lcov"
-      ],
-      "exclude": [
-        "**/test/**",
-        "**/types/**",
-        "coverage/**",
-        "index.*"
-      ]
-    }
+  "scripts": {
+    "dev:watch-backend": "node ./node_modules/parcel-bundler/bin/cli watch ./src/index.js --target node --out-dir ./dist/",
+    "dev:watch-frontend": "node ./node_modules/parcel-bundler/bin/cli watch ./src/public/index.html --out-dir ./dist/public/",
+    "dev:hot-reload": "node ./node_modules/nodemon/bin/nodemon --watch ./dist/ ./dist/index.js",
+    "start": "node ./node_modules/npm-run-all/bin/npm-run-all -p -r dev:watch-backend dev:watch-frontend dev:hot-reload",
+    "build": "node ./node_modules/parcel-bundler/bin/cli build ./src/index.js --target node --out-dir ./dist/",
+    "lint": "node ./node_modules/eslint/bin/eslint . --ext .jsx,.js --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin-tslint": "^5.30.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tslint": "^6.1.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.18.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "nodemon": "^2.0.18",
+    "npm-run-all": "^4.1.5",
+    "parcel-bundler": "^1.12.5"
   }
+}
