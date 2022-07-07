@@ -1,3 +1,3 @@
-function hello(who = world) {
-    return `Hello ${who}! `;
-}
+<script type="text/javascript">  
+ alert("Hello Javatpoint");  
+</script>  
