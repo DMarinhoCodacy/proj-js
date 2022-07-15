@@ -9,6 +9,6 @@
             "project": "tsconfig.json",
             "sourceType": "module"
         },
-        "plugins": ["@typescript-eslint", "@typescript-eslint/tslint", "prettier", "eslint-plugin-unused-imports" ],
+        "plugins": ["@typescript-eslint", "@typescript-eslint/tslint", "prettier", "eslint-plugin-simple-import-sort" ],
         "rules": {}
 }
