@@ -8,6 +8,6 @@
         "parserOptions": {
             "sourceType": "module"
         },
-        "plugins": ["@typescript-eslint", "@typescript-eslint/tslint", "prettier", "eslint-plugin-simple-import-sort" ],
+        "plugins": ["@typescript-eslint", "@typescript-eslint/tslint", "prettier", "eslint-plugin-unused-imports" ],
         "rules": {}
 }
