@@ -1,0 +1,298 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login - Codacy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css">
+    <link href="/legacy/versioned/stylesheets/fonts/clear-sans/6e3f47052e1085ffb99f75c398db9125-clear-sans.css" rel="stylesheet" type="text/css"/>
+    <link href="/legacy/versioned/stylesheets/fonts/orkney/b322efa5358e227d991cedf2ce86759c-orkney.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="/legacy/versioned/lib/codacy__stylesheets/dist/out/css/ae717c41988b1a2fc12c4c8c08ff96c3-template.min.css"/>
+    <link rel="stylesheet" href="/legacy/versioned/v3/stylesheets/36150914914572197b34cdfa3da9ffe5-non-responsive.min.css">
+    <link rel="stylesheet" href="/legacy/versioned/v3/stylesheets/2a0a5badd6fa13e88887e12ef0f430c6-styleguideTobe.min.css"/>
+    <link rel="stylesheet" href="/legacy/versioned/v3/stylesheets/288e8d9ebe42008ca3070668e26948cc-migrationCompatibility.min.css"/>
+    <link rel="shortcut icon" type="image/png" href="/legacy/versioned/images/favicon.png"/>
+    
+    <script src="/legacy/versioned/v3/javascripts/react-components/30540e273ff455eb4dfdb9a839d5d651-runtime-main.44836b23.js"></script>
+    <script src="/legacy/versioned/v3/javascripts/react-components/aa113a4c82a1225d7b804a7a631aa4b1-2.e4df24f8.chunk.js"></script>
+    
+  <meta name="description" content="Login to your Codacy account to automate your code reviews and save engineering time">
+  <link rel="stylesheet" type="text/css" href="/legacy/versioned/v3/stylesheets/2ae99951b9c5d245414b4915ebf73b75-login.min.css">
+
+    <script src="/legacy/versioned/lib/jquery/dc5e7f18c8d36ac1d3d4753a87c98d0a-jquery.min.js" type="text/javascript"></script>
+    <script src="/legacy/versioned/lib/pluralize/6008e7ce703c9940d6fcc8580b46b9d6-pluralize.js"></script>
+    <script src="/legacy/versioned/v2/javascripts/4d5ea2e8cd28f4a115c0ff00e5966a9a-qamine-utils.js"></script>
+    
+
+  <script>
+    !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t,e){var n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src="https://cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(n,a);analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.1.0";
+      analytics.load("4sT1ml0BeKdR1RtrK5dSQmwxmvcUpYtL");
+
+      
+
+      analytics.page("Login - Codacy");
+    }}();
+  </script>
+
+
+    
+
+
+
+  <script src="https://unpkg.com/launchdarkly-js-client-sdk@2"></script>
+  <script>
+    $(document).ready(function() {
+      var BASE_FLAG_USER = {
+        key: 'GUEST-USER',
+        custom: {
+          currentOrganization: 'NONE',
+          organizations: [],
+        }
+      }
+
+      var client = LDClient.initialize("61ade2ec9a5a26130485865f", BASE_FLAG_USER);
+
+      function identify() {
+        const customAttributes = BASE_FLAG_USER.custom
+
+        
+        customAttributes.organizations = []
+
+        var currentUser = client.getUser()
+        var newUser = {
+          key: "" || BASE_FLAG_USER.key,
+          email: "",
+          custom: customAttributes,
+        }
+
+        if (
+          !currentUser ||
+          currentUser.key !== newUser.key ||
+          currentUser.custom?.currentOrganization !== newUser.custom.currentOrganization ||
+          currentUser.custom?.organizations.length !== newUser.custom.organizations.length
+        ) {
+          client.identify(newUser).then((ldFlags) => {
+            Object.keys(ldFlags).forEach(flag => {
+              if(ldFlags[flag]) {$(`[data-flag='${flag}']`).addClass("flag-enabled")}
+            });
+          })
+        }
+      }
+
+      client.on('ready', identify);
+      client.on('change', identify);
+    });
+  </script>
+
+
+  </head>
+  <body>
+    <div class="flex flex-column h-100">
+      
+
+
+      
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div id="navbar-header" class="navbar-header">
+      
+        <a id="home-navigate" href="https://www.codacy.com" class="navbar-brand">
+          <img src="/legacy/versioned/images/codacy-white.svg" alt="Codacy, the automated code review software">
+        </a>
+      
+    </div>
+    <ul class="nav navbar-nav navbar-left">
+      
+      
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li><a href="https://www.codacy.com/product" target="_blank">Product</a></li>
+          <li><a href="https://www.codacy.com/pricing" target="_blank">Pricing</a></li>
+          <li><a href="https://www.codacy.com/self-hosted" target="_blank">Self-hosted</a></li>
+          <li>
+            <a id="community-navigate" href="https://community.codacy.com/" target="_blank">Community</a>
+          </li>
+          
+          <li>
+            <div class="navbar-btn">
+              <a id="signup" class="btn btn-primary" href="https://www.codacy.com/signup">Sign Up</a>
+            </div>
+          </li>
+        
+      
+    </ul>
+  </div>
+</nav>
+
+      <div class="flex-grow-1 ">
+        
+  <div class="bg-dark signup-full">
+    <section class="container">
+      <div class="row">
+        <div class="col-5 bg-dark py-6 d-none d-lg-block">
+          <div class="row align-items-center justify-content-center h-100">
+            <div class="col-auto">
+              <img src="/legacy/versioned/images/homepage/login-image.png" alt="Login image" class="img-fluid ml-3 mb-3" width="300">
+              <ul class="list-unstyled">
+                <li class="mb-1 d-flex align-items-center">
+                  <img src="/legacy/versioned/images/homepage/check.png" alt="Signup check" class="img-fluid mr-1" width="20">
+                  Overall quality of your team
+                </li>
+                <li class="mb-1 d-flex align-items-center">
+                  <img src="/legacy/versioned/images/homepage/check.png" alt="Signup check" class="img-fluid mr-1" width="20">
+                  Get everyone on the same page
+                </li>
+                <li class="d-flex align-items-center">
+                  <img src="/legacy/versioned/images/homepage/check.png" alt="Signup check" class="img-fluid mr-1" width="20">
+                  Seamless integrations
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <article class="col bg-white py-6 bg-extended">
+          <div class="row align-items-center justify-content-center h-100">
+            <article class="col-12 col-sm-8 col-xl-10 text-center text-lg-left">
+              <h2 class="text-dark">Welcome back!</h2>
+              
+              <div class="login-buttons-container mb-2">
+
+                  <a id="btn-login-github"
+                    class="btn btn-login"
+                    href="/login-with/github"
+                  >
+                    <img class="img-fluid"
+                      aria-hidden="true"
+                      src="/legacy/versioned/images/login-providers/github-icon.svg"
+                      onerror="this.src='/legacy/versioned/images/login-providers/github-icon@@2x.png'; this.onerror=null;"
+                      alt="GitHub Icon"/>
+                    <span>GitHub</span>
+                  </a>
+
+                  <a id="btn-login-bitbucket"
+                    class="btn btn-login"
+                    href="/login-with/bitbucket"
+                    data-toggle="tooltip"
+                    title="Bitbucket"
+                    aria-label="Bitbucket"
+                  >
+                    <img class="img-fluid"
+                      aria-hidden="true"
+                      src="/legacy/versioned/images/login-providers/bitbucket-icon.svg"
+                      onerror="this.src='/legacy/versioned/images/login-providers/bitbucket-icon@@2x.png'; this.onerror=null;"
+                      alt="Bitbucket Icon"/>
+                  </a>
+
+                  <a id="btn-login-gitlab"
+                    class="btn btn-login"
+                    href="/login-with/gitlab"
+                    data-toggle="tooltip"
+                    title="GitLab"
+                    aria-label="GitLab"
+                  >
+                    <img class="img-fluid"
+                      aria-hidden="true"
+                      src="/legacy/versioned/images/login-providers/gitlab-icon.svg"
+                      onerror="this.src='/legacy/versioned/images/login-providers/gitlab-icon@@2x.png'; this.onerror=null;"
+                      alt="GitLab Icon"/>
+                  </a>
+              </div>
+
+              <p class="text-dark mb-1">Login with <a id="btn-login-google" href="/login-with/google">Google</a></p>
+              <p class="text-dark small b-top pt-2 mt-3 text-left">Don't have an account? <a href="https://www.codacy.com/signup">Sign up</a></p>
+              
+              <div class="permissions-feedback mt-3 hidden">
+                <h4>Why does Codacy need permissions from my Git provider?</h4>
+                <p>Codacy requires only the necessary permissions to analyze your code and keeps your information secure. For more information see <a href="https://docs.codacy.com/getting-started/which-permissions-does-codacy-need-from-my-account/" target="_blank">why Codacy asks for each permission</a> and our <a href="https://security.codacy.com/" target="_blank">Security Overview</a>.
+                </p>
+              </div>
+            </article>
+          </div>
+        </article>
+      </div>
+    </section>
+  </div>
+
+      </div>
+    </div>
+
+    <div id="feedback-toast" class="side-toast" hidden>
+      <h5 class="no-margin-top" hidden></h5>
+      <p></p>
+      <i class="fa fa-times"></i>
+    </div>
+
+    
+      
+    
+
+    <script src="/legacy/versioned/lib/codacy__legacy-javascripts/dist/js/75339ccfd351203d76e759a4da08fce2-main.min.js"></script>
+    <script src="/legacy/versioned/lib/jquery-timeago/d82a3f268d08d93c4fdba6beb7c3bd71-jquery.timeago.js" type="text/javascript"></script>
+    <script src="/legacy/versioned/lib/underscorejs/543feb1ecaf06ea516f8cec5f9f3f279-underscore-min.js" type="text/javascript"></script>
+    <script src="/legacy/versioned/lib/clipboard/dist/1f91008d9fb39b45db0978805499ad9c-clipboard.min.js"></script>
+    <script src="/legacy/versioned/lib/js-cookie/src/893f870eaf4600c848b1f29c66e13917-js.cookie.js"></script>
+    <script src="/legacy/versioned/v3/javascripts/518da6d68ff65c39b0330f3244bab14e-eventsHandler.js" type="text/javascript"></script>
+    <script src="/legacy/versioned/v3/javascripts/33dc83cb3c23daa44de88cda6adb16d8-loadingInit.js"></script>
+    <script src="/legacy/versioned/v3/javascripts/1fd63bd297573341288a97dadaf1fa55-track.js"></script>
+    <script>
+      $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+
+        // https://stackoverflow.com/a/12021231
+        // https://getbootstrap.com/docs/4.0/components/pagination/#disabled-and-active-states
+        $("body").on("click", ".pager .disabled a, .breadcrumb .active a, .breadcrumb .active ~ li a, a.btn[disabled], li.disabled a", function(e) {
+          e.preventDefault();
+        });
+
+        var $selectDropdownOrg = $("#select-organization");
+        if($selectDropdownOrg.length) {
+          var $organizationMenuDropdown = $($selectDropdownOrg.data("selectpicker").$menu);
+
+          $organizationMenuDropdown.find("li").on("click", function() {
+            $selectDropdownOrg.change();
+          });
+
+          var $navigation = $(".aside-nav, .navbar-fixed-top, .fixed-aside, .fixed-container");
+          $(window).on("scroll", function () {
+            $navigation.css("left", -$(window).scrollLeft());
+          });
+        }
+      });
+      var utils = QamineUtils.getInstance();
+      utils.prettyTime();
+      utils.dropdownBranchSearch();
+      utils.clipboard();
+      utils.bindAdminActions();
+    </script>
+    
+
+
+    
+  <script>
+    $(document).ready(function(){
+      var params = new URLSearchParams(window.location.search)
+      if(params.get('error') === 'access_denied') {
+        $('.permissions-feedback').toggleClass('hidden')
+      }
+    });
+  </script>
+
+  </body>
+</html>
+
