@@ -1,12 +1,8 @@
 {
   "root": true,
   "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/recommended"
+      "@teambit/eslint-config-bit-react"
   ],
   "parser": "@typescript-eslint/parser",
-  "parserOptions": { "project": ["./tsconfig.json"] },
-  "plugins": [
-      "@teambit/eslint-config-bit-react"
-  ]
+  "parserOptions": { "project": ["./tsconfig.json"] }
 }
