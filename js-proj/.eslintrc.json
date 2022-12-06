@@ -1,16 +1,7 @@
 {
-  "extends": "@teambit/eslint-config-bit-react",
-  "env": {
-    "browser": true,
-    "es6": true,
-    "worker": true
-  },
+  "extends": "@teambit/react.eslint-config-bit-react",
   "parserOptions": {
     "parser": "@typescript-eslint/parser",
-    "project": "./tsconfig.json",
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true 
-    }
+    "project": "./tsconfig.json"
   }
 }
