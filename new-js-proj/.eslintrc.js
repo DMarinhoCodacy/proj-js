@@ -1,10 +1,10 @@
 const config = {
-  parser: "@babel/eslint-parser",
   parserOptions: {
-    requireConfigFile: false,
-    sourceType: "module"
+    parser: "@babel/eslint-parser",
+    //requireConfigFile: false,
+    //ecmaVersion: 2022,
   },
-  //extends: ['@magento'],
+  extends: ['eslint-config-airbnb-base'],
   rules: {
       'no-prototype-builtins': 'off',
       'no-undef': 'off',
