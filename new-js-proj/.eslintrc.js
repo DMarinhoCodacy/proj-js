@@ -1,6 +1,9 @@
 const config = {
-  parser: '@babel/eslint-parser',
-  extends: ['eslint:recommended'],
+  parser: "@babel/eslint-parser",
+  parserOptions: {
+    requireConfigFile: false
+  },
+  //extends: ['@magento'],
   rules: {
       'no-prototype-builtins': 'off',
       'no-undef': 'off',
