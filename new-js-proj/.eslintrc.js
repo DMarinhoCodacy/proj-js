@@ -1,7 +1,8 @@
 const config = {
   parser: "@babel/eslint-parser",
   parserOptions: {
-    requireConfigFile: false
+    requireConfigFile: false,
+    sourceType: "module"
   },
   //extends: ['@magento'],
   rules: {
