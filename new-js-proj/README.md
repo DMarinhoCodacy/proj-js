@@ -1,2 +1,2 @@
-# js-proj
+# new-js-proj
 A JavaScript project
