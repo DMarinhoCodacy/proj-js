@@ -18,9 +18,10 @@
   "dependencies": {
     "@babel/eslint-parser": "^7.19.1",
     "@magento/eslint-config": "^1.5.3",
+    "@teambit/eslint-config-bit-react": "^0.0.367",
     "acorn": "^8.8.1",
-    "babel-eslint": "^10.1.0",
     "eslint-config-prettier": ">6.0.0",
+    "eslint-plugin-jest": "^27.1.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
