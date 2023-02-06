@@ -10,7 +10,9 @@
         SmallWorld coding standard for PHP projects
     </description>
 
-    <rule ref="rulesets/cleancode.xml"/>
+    <rule ref="rulesets/cleancode.xml">
+        <exclude name="StaticAccess" />
+    </rule>
 
     <rule ref="rulesets/codesize.xml" />
 
