@@ -7,7 +7,7 @@
     if($mode=="edit"){
 		//$squery=mysql_query("SELECT * FROM ".tblPrefix."websites WHERE ID='$ID'");
 		$squery = $dbCon->getRecord("SELECT * FROM ".tblPrefix."websites WHERE ID=?", array($ID), true);
-		$ID = $squery["ID");
+		$ID = $squery["ID"];
         $token = stripslashes($squery["TOKEN"]);
         $webName = stripslashes($squery["NAME"]);
         $webURL = stripslashes($squery["URL"]);
