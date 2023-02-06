@@ -1,50 +1,118 @@
 <?php
-	$pageTitle = "Website  Management";
-    include "includes/header.php";
-    include "includes/left_panel.php";
-    $ID=$_GET['ID'];
-    $mode=$_GET['mode'];
-    if($mode=="edit"){
-		//$squery=mysql_query("SELECT * FROM ".tblPrefix."websites WHERE ID='$ID'");
-		$squery = $dbCon->getRecord("SELECT * FROM ".tblPrefix."websites WHERE ID=?", array($ID), true);
-		$ID = $squery["ID"];
-        $token = stripslashes($squery["TOKEN"]);
-        $webName = stripslashes($squery["NAME"]);
-        $webURL = stripslashes($squery["URL"]);
-        $contName = stripslashes($squery["PERSON_NAME"]);
-	}
-    ?>
-        <aside class="right-side">                
-            <section class="content-header">
-                <?php if($mode!="edit"){?>
-                    <button type="button" class="btn btn-sm btn-success" id="ShowLink" onClick="showHideForm('AddEditform', 'Show');"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add New Website</button>
-                    <button type="button" class="btn btn-sm btn-danger" id="HideLink" onClick="showHideForm('AddEditform', 'Hide');" style="display:none"><i class="fa fa-minus-circle" aria-hidden="true"></i> Hide Website Form</button>
-                <?php }else{ ?>
-                    <h1> Update Website <small>Details</small></h1>
-                <?php } ?>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li><li class="active">Manage Websites Master</li>
-                </ol>
-            </section>
-            
-            <section class="content">
-                <div class="row">
-                    <div class="col-md-12">
-                        <?php if(($_GET['msg']=="SUCCESS") || ($_GET['msg']=="UPDATED") || ($_GET['msg']=="SHIPPING_METHODS_ADDED") || ($_GET['msg']=="SHIPPING_METHODS_UPDATED")){ ?>
-                        <div class="alert alert-success alert-dismissable">
-                            <i class="fa fa-check"></i> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <?php
-									?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <?php } ?>
-                        
-                    </div>
-                </div>
-            </section>
-        </aside>
-<?php
-include "includes/footer.php";
-?>
+
+namespace App\Console;
+
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+
+class Kernel extends ConsoleKernel
+{
+    /**
+     * The Artisan commands provided by your application.
+     *
+     * @var array
+     */
+    protected $commands = [
+
+        Commands\TransactionsComprobateMtn::class, //schedule
+        Commands\TransactionsConfirmOnline::class, //schedule
+        Commands\CaptureIngenicoTransactions::class, //schedule
+        Commands\TransactionsUpdate::class, //schedule
+        Commands\UsersActivateState::class, //bajo demanda
+        Commands\UsersBlackList::class, //schedule
+        Commands\UsersEmailNoDashboard::class, //schedule
+        Commands\UsersMaintenance::class, //schedule
+        Commands\UsersReportApp::class, //schedule
+        Commands\UsersReportRegister::class, //schedule
+        Commands\UsersReportTransactionsErrorQuality::class, //schedule
+        Commands\UsersExpiringDocuments::class, //schedule
+        Commands\ValidateEmail::class,
+        Commands\NotificationsAdmPush::class, //schedule
+        Commands\NotificationsSendTestEmail::class, //bajo demanda
+        Commands\UsersAttachments::class, //
+        Commands\WebIdSync::class, // schedule
+        Commands\BeneficiariesScraper::class,
+        Commands\CopyExcelCountryCurrencyLocal::class,
+        Commands\UsersPendingEmail::class, //schedule
+        Commands\DispatchJob::class,
+        Commands\BeneficiariesAnywhereRepcodes::class,
+        Commands\UpdateIncorrectDefaultLanguages::class
+    ];
+    /**
+     * Define the application's command schedule.
+     *
+     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @return void
+     */
+    protected function schedule(Schedule $schedule)
+    {
+        if (config('toggle_features.transactions_update')) {
+            $schedule->command('transactions:update')->everyTenMinutes();
+        }
+
+        if (config('toggle_features.transactions_ingenico_captures')) {
+            $schedule->command('transactions:ingenico_captures')->hourly();
+        }
+
+        if (config('toggle_features.users_maintenance')) {
+            $schedule->command('users:maintenance')->hourly();
+        }
+
+        if (config('toggle_features.transactions_confirmonline')) {
+            $schedule->command('transactions:confirmonline')->cron('*/15 * * * *'); //every 15 minutes
+        }
+
+        if (config('toggle_features.notifications_adm_push')) {
+            $schedule->command('notifications:adm_push')->hourly();
+        }
+
+        if (config('toggle_features.users_attachments')) {
+            $schedule->command('users:attachments')->hourly();
+        }
+
+        if (config('toggle_features.report_transactions_error_quality')) {
+            $schedule->command('users:report_transactions_error_quality')->cron('0 8-17 * * *');
+        }
+
+        if (config('toggle_features.transactions_comprobate_mtn')) {
+            $schedule->command('transactions:comprobate_mtn')->cron('0 */4 * * *');
+        }
+
+        if (config('toggle_features.users_blacklist')) {
+            $schedule->command('users:blacklist')->daily()->at('00:30');
+        }
+
+        if (config('toggle_features.users_report_register')) {
+            $schedule->command('users:report_register')->daily()->at('02:00');
+        }
+
+        if (config('toggle_features.users_report_transactions_error')) {
+            $schedule->command('users:report_transactions_error --ALL')->daily()->at('02:30');
+        }
+
+        if (config('toggle_features.users_report_transactions_error')) {
+            $schedule->command('users:report_transactions_error')->daily()->at('02:45');
+        }
+
+        if (config('toggle_features.users_email_no_dashboard')) {
+            $schedule->command('users:email_no_dashboard')->daily()->at('03:00');
+        }
+
+        if (config('toggle_features.users_expiring_documents')) {
+            $schedule->command('users:expiring_documents')->daily()->at('3:30');
+        }
+
+        if (config('toggle_features.users_report_app')) {
+            $schedule->command('users:report_app')->weekly()->sundays()->at('00:45');
+        }
+
+
+        if (config('toggle_features.users_pending_email')) {
+            $schedule->command('users:pending_email')->daily()->at('9:00');
+        }
+        if (config('toggle_features.riskified_historic_transactions_sync') && \App::environment() == 'prod') {
+            // Only run this command on production environment
+            $schedule->command('job:dispatch RiskifiedHistoricTransactionsSync')->daily()->at('02:00');
+        }
+    }
+}
