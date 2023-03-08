@@ -30,7 +30,10 @@ module.exports = {
     sourceType: 'module',
     ecmaFeatures: {
       jsx: true
-    }
+    },
+    "babelOptions": {
+      "presets": ["@babel/preset-react"]
+   }
   },
   plugins: [
     'import',
@@ -46,6 +49,9 @@ module.exports = {
   settings: {
     "jest": {
       "version": 26
+    },
+    "react": {
+      "version": "detect"
     },
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts', '.tsx']
