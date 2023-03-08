@@ -9,7 +9,7 @@
   },
   "engineStrict": true,
   "browserslist": [
-    "extends @polestar/browserslist-config/web3"
+    "extends prettier"
   ],
   "scripts": {
     "build": "cross-env BABEL_ENV=webpack NODE_ENV=production babel-node ./node_modules/webpack/bin/webpack.js --config webpack.prod.js --colors --display-error-details",
