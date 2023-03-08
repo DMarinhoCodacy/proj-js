@@ -71,7 +71,7 @@ module.exports = {
     'react/forbid-prop-types': [
       1,
       {
-        forbid: ['any']
+        forbid: ['any'] 
       }
     ],
     'react/jsx-closing-tag-location': 0,
