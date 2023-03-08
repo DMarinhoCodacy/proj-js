@@ -8,9 +8,9 @@
     "node": ">= 8.5.0"
   },
   "engineStrict": true,
-  // "browserslist": [
-  //   "extends @wordpress/browserslist-config" 
-  // ],
+  "browserslist": [
+    "extends @wordpress/browserslist-config" 
+  ],
   "scripts": {
     "build": "cross-env BABEL_ENV=webpack NODE_ENV=production babel-node ./node_modules/webpack/bin/webpack.js --config webpack.prod.js --colors --display-error-details",
     "cp-env": "devhouse-dotenv copy -e .env.example",
