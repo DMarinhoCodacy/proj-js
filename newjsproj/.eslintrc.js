@@ -3,6 +3,7 @@ module.exports = {
   env: {
     es6: true,
     browser: true,
+    'jest/globals': true,
     node: true
   },
   extends: [
@@ -19,6 +20,7 @@ module.exports = {
   ],
   globals: {
     context: true,
+    jestPuppeteer: true,
     module: true,
     page: true,
     process: true,
@@ -40,16 +42,11 @@ module.exports = {
     'promise',
     'react',
     'react-hooks',
-    '@typescript-eslint'
+    '@typescript-eslint',
+    'jest'
     // 'security'
   ],
   settings: {
-    "jest": {
-      "version": 26
-    },
-    "react": {
-      "version": "detect"
-    },
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts', '.tsx']
     },
