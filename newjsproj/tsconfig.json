@@ -1,32 +1,24 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-  "compileOnSave": false,
   "compilerOptions": {
+    "lib": ["DOM", "ESNext"],
+    "noEmit": true,
     "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "sourceMap": true,
-    "declaration": false,
-    "downlevelIteration": true,
-    "experimentalDecorators": true,
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "target": "es2020",
-    "module": "es2020",
-    "lib": [
-      "es2020",
-      "dom"
-    ]
+    "paths": {
+      "~root/*": ["./*"],
+      "~src/*": ["./src/*"],
+      "~app/*": ["./src/app/*"],
+      "~shared/*": ["./src/app/components/Shared/*"],
+      "~config/*": ["./src/config/*"],
+      "~public/*": ["./src/public/*"],
+      "~routes/*": ["./src/routes/*"],
+      "~tests/*": ["./tests/*"],
+      "~helpers/*": ["./src/app/helpers/*"],
+      "~components/*": ["./src/app/components/*"],
+      "~contexts/*": ["./src/app/contexts/*"],
+      "~apollo/*": ["./src/app/apollo/*"],
+      "~enums/*": ["./src/app/enums/*"]
+    }
   },
-  "angularCompilerOptions": {
-    "enableI18nLegacyMessageIdFormat": false,
-    "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
-  }
+  "include": ["./src/**/*", "./tests/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }
