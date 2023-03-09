@@ -13,7 +13,7 @@
     ">= 1%",
     "maintained node versions",
     "not dead",
-    "not ie <= 11"
+    "not ie <= 11" 
   ],
   "scripts": {
     "build": "cross-env BABEL_ENV=webpack NODE_ENV=production babel-node ./node_modules/webpack/bin/webpack.js --config webpack.prod.js --colors --display-error-details",
