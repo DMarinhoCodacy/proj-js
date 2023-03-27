@@ -6,12 +6,12 @@
       "import/resolver": {
         "typescript": {}
       }
-    },
+    }, 
     "env": {
       "node": true,
       "mocha": true, 
       "jest": true
-    },
+    }, 
     "rules": {
       "no-throw-literal": 0,
       "no-plusplus": 0,
