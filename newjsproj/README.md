@@ -1,2 +1,0 @@
-# newjsproj
-A JavaScript project
