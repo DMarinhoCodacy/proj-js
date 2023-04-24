@@ -17,3 +17,5 @@ jobs:
           prefix: v
           release-branch: main
           dev-branch: feature/**
+      - name: New Version
+        run: echo ${{ steps.get-version.outputs.version }}
