@@ -1,4 +1,4 @@
 ---
 
 exclude_paths:
-  - "newjsproj/tsconfig.com"
+  - "newjsproj/tsconfig.json"
