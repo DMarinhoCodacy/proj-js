@@ -1,4 +1,3 @@
 ---
 
-exclude_paths:
-  - "newjsproj/tsconfig.json"
+exclude_paths: []
