@@ -8,6 +8,6 @@
       "target": "es5"
     },
     "include": [
-      "folder3/folder4/**/*"
+      "test-js-project/src/folder1/folder2/folder3/folder4/**/*"
     ]
   }
