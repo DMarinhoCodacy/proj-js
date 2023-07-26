@@ -15,5 +15,13 @@
   "rules": {
     "no-unused-vars": "warn",
     "class-methods-use-this": "warn"
-  }
+  },
+  "ignorePatterns": [
+    "**/node_modules/**/*",
+    "**/dist/**/*",
+    "**/bin/**/*",
+    "**/build/**/*",
+    "**/docs/tests/**/*",
+    "tsconfig.json"
+  ]
 }
