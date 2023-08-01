@@ -11,7 +11,7 @@ jobs:
       - name: send coverage
         working-directory: ${{ github.workspace }}
         run: bash ./get.sh report -t 78973d94455e4f149990dea6ed3b4c13
-    Run-coverage-on-macos:
+  Run-coverage-on-macos:
     name: Run coverage macos
     runs-on: macos-latest
     steps:
@@ -19,7 +19,7 @@ jobs:
       - name: send coverage
         working-directory: ${{ github.workspace }}
         run: bash ./get.sh report -t 78973d94455e4f149990dea6ed3b4c13
-    Run-coverage-on-windows:
+  Run-coverage-on-windows:
     name: Run coverage windows
     runs-on: windows-latest
     steps:
