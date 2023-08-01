@@ -136,13 +136,8 @@ download() {
 }
 
 download_reporter() {
-    if [ "$os_name" = "Linux" ] || [ "$os_name" = "Darwin" ]; then
-        # OS name lower case
-        suffix=$(echo "$os_name" | tr '[:upper:]' '[:lower:]')
-    else
-        suffix="assembly.jar"
-    fi
-    local binary_name="codacy-coverage-reporter-$suffix"
+
+    local binary_name="codacy-coverage-reporter-assembly.jar"
     local reporter_path=$1
     local reporter_folder=$2
     local reporter_filename=$3
