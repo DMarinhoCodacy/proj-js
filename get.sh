@@ -136,18 +136,28 @@ download() {
 }
 
 download_reporter() {
-    local binary_name="codacy-coverage-reporter-assembly.jar"
+    if [ "$os_name" = "Linux" ] || [ "$os_name" = "Darwin" ]; then
+        # OS name lower case
+        suffix=$(echo "$os_name" | tr '[:upper:]' '[:lower:]')
+    else
+        suffix="assembly.jar"
+    fi
+    local binary_name="codacy-coverage-reporter-$suffix"
     local reporter_path=$1
     local reporter_folder=$2
     local reporter_filename=$3
 
+    if [ ! -f "$reporter_path" ]
+    then
         log "$i" "Downloading the codacy reporter $binary_name... ($CODACY_REPORTER_VERSION)"
 
         binary_url="https://artifacts.codacy.com/bin/codacy-coverage-reporter/$CODACY_REPORTER_VERSION/$binary_name"
         checksum_url="https://github.com/codacy/codacy-coverage-reporter/releases/download/$CODACY_REPORTER_VERSION/$binary_name.SHA512SUM"
 
         download "$binary_url" "$binary_name" "$reporter_folder" "$reporter_filename" "$checksum_url"
-
+    else
+        log "$i" "Codacy reporter $binary_name already in cache"
+    fi
 }
 
 is_self_hosted_instance() {
