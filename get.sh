@@ -154,8 +154,8 @@ download_reporter() {
 
         log "$i" "Downloading the codacy reporter $binary_name... ($CODACY_REPORTER_VERSION)"
 
-        binary_url="https://artifacts.codacy.com/bin/codacy-coverage-reporter/13.13.3/$binary_name"
-        checksum_url="https://github.com/codacy/codacy-coverage-reporter/releases/download/13.13.3/$binary_name.SHA512SUM"
+        binary_url="https://artifacts.codacy.com/bin/codacy-coverage-reporter/13.13.4/$binary_name"
+        checksum_url="https://github.com/codacy/codacy-coverage-reporter/releases/download/13.13.4/$binary_name.SHA512SUM"
 
         download "$binary_url" "$binary_name" "$reporter_folder" "$reporter_filename" "$checksum_url"
 
