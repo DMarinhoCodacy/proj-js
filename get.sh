@@ -128,12 +128,13 @@ download() {
 
     log "$file_name"
     log "$output_filename"
-
+    mv  "$file_name" "$output_filename"
+    
     cd "$output_folder"
 
     download_file "$url"
     checksum "$file_name" "$checksum_url"
-    mv -n "$file_name" "$output_filename"
+   # mv -n "$file_name" "$output_filename"
 
     log "$output_filename"
 
