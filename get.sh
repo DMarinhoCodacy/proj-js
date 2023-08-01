@@ -136,10 +136,7 @@ download() {
 }
 
 download_reporter() {
-
-        suffix="assembly.jar"
-
-    local binary_name="codacy-coverage-reporter-$suffix"
+    local binary_name="codacy-coverage-reporter-assembly.jar"
     local reporter_path=$1
     local reporter_folder=$2
     local reporter_filename=$3
