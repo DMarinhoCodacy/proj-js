@@ -127,19 +127,15 @@ download() {
     local original_folder="$(pwd)"
 
     log "$file_name"
-    log "$url"
-    log "$output_folder"
     log "$output_filename"
-    
-    log "$output_folder"
 
     cd "$output_folder"
 
     download_file "$url"
     checksum "$file_name" "$checksum_url"
-    mv "$file_name" "$output_filename"
+    mv -n "$file_name" "$output_filename"
 
-    log "$output_folder"
+    log "$output_filename"
 
     cd "$original_folder"
 }
