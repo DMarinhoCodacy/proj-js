@@ -196,7 +196,7 @@ if [ -z "$CODACY_REPORTER_TMP_FOLDER" ]; then
     elif [ "$os_name" = "Darwin" ]; then
         CODACY_REPORTER_TMP_FOLDER="$HOME/Library/Caches/Codacy/coverage-reporter"
     else
-        CODACY_REPORTER_TMP_FOLDER="~/.codacy-coverage"
+        CODACY_REPORTER_TMP_FOLDER="$(pwd)/.codacy-coverage"
     fi
 fi
 
