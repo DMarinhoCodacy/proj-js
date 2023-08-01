@@ -122,7 +122,7 @@ download() {
     local url="$1"
     local file_name="$2"
     local output_folder="$3"
-    local output_filename="$4"
+    local output_filename="$2"
     local checksum_url="$5"
     local original_folder="$(pwd)"
 
@@ -135,7 +135,6 @@ download() {
 
     download_file "$url"
     checksum "$file_name" "$checksum_url"
-    mv -f "$file_name" "$output_filename"
 
     cd "$original_folder"
 }
@@ -154,8 +153,8 @@ download_reporter() {
 
         log "$i" "Downloading the codacy reporter $binary_name... ($CODACY_REPORTER_VERSION)"
 
-        binary_url="https://artifacts.codacy.com/bin/codacy-coverage-reporter/13.13.3/$binary_name"
-        checksum_url="https://github.com/codacy/codacy-coverage-reporter/releases/download/13.13.3/$binary_name.SHA512SUM"
+        binary_url="https://artifacts.codacy.com/bin/codacy-coverage-reporter/$CODACY_REPORTER_VERSION/$binary_name"
+        checksum_url="https://github.com/codacy/codacy-coverage-reporter/releases/download/$CODACY_REPORTER_VERSION/$binary_name.SHA512SUM"
 
         download "$binary_url" "$binary_name" "$reporter_folder" "$reporter_filename" "$checksum_url"
 
@@ -209,7 +208,7 @@ else
 fi
 
 # Folder containing the binary
-reporter_folder="$CODACY_REPORTER_TMP_FOLDER"/13.13.3
+reporter_folder="$CODACY_REPORTER_TMP_FOLDER"/"$CODACY_REPORTER_VERSION"
 
 # Create the reporter folder if not exists
 mkdir -p "$reporter_folder"
