@@ -209,7 +209,7 @@ else
 fi
 
 # Folder containing the binary
-reporter_folder="$CODACY_REPORTER_TMP_FOLDER"/13.13.4
+reporter_folder="$CODACY_REPORTER_TMP_FOLDER"/13.13.3
 
 # Create the reporter folder if not exists
 mkdir -p "$reporter_folder"
