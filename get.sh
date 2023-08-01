@@ -135,6 +135,7 @@ download() {
 
     download_file "$url"
     checksum "$file_name" "$checksum_url"
+    chmod 644 "$original_folder"
 
     cd "$original_folder"
 }
