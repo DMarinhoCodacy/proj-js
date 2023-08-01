@@ -146,18 +146,12 @@ download_reporter() {
     local reporter_path=$1
     local reporter_folder=$2
     local reporter_filename=$3
+    log "$i" "Downloading the codacy reporter $binary_name... ($CODACY_REPORTER_VERSION)"
 
-    if [ ! -f "$reporter_path" ]
-    then
-        log "$i" "Downloading the codacy reporter $binary_name... ($CODACY_REPORTER_VERSION)"
+    binary_url="https://artifacts.codacy.com/bin/codacy-coverage-reporter/$CODACY_REPORTER_VERSION/$binary_name"
+    checksum_url="https://github.com/codacy/codacy-coverage-reporter/releases/download/$CODACY_REPORTER_VERSION/$binary_name.SHA512SUM"
 
-        binary_url="https://artifacts.codacy.com/bin/codacy-coverage-reporter/$CODACY_REPORTER_VERSION/$binary_name"
-        checksum_url="https://github.com/codacy/codacy-coverage-reporter/releases/download/$CODACY_REPORTER_VERSION/$binary_name.SHA512SUM"
-
-        download "$binary_url" "$binary_name" "$reporter_folder" "$reporter_filename" "$checksum_url"
-    else
-        log "$i" "Codacy reporter $binary_name already in cache"
-    fi
+    download "$binary_url" "$binary_name" "$reporter_folder" "$reporter_filename" "$checksum_url"
 }
 
 is_self_hosted_instance() {
