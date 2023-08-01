@@ -143,7 +143,7 @@ download() {
 
 download_reporter() {
 
-    local binary_name="codacy-coverage-reporter-linux"
+    local binary_name="codacy-coverage-reporter-darwin"
     local reporter_path=$1
     local reporter_folder=$2
     local reporter_filename=$3
@@ -188,7 +188,7 @@ fi
 
 # Temporary folder for downloaded files
 
-CODACY_REPORTER_TMP_FOLDER="$HOME/.cache/codacy/coverage-reporter"
+CODACY_REPORTER_TMP_FOLDER="$HOME/Library/Caches/Codacy/coverage-reporter"
 
 
 # Set binary name
