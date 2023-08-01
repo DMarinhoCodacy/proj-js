@@ -131,12 +131,15 @@ download() {
     log "$output_folder"
     log "$output_filename"
     
-    chmod +x "$output_folder/codacy-coverage-reporter"
+    log "$output_folder"
 
     cd "$output_folder"
 
     download_file "$url"
     checksum "$file_name" "$checksum_url"
+    mv "$file_name" "$output_folder"
+
+    log "$output_folder"
 
     cd "$original_folder"
 }
