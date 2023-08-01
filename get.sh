@@ -130,9 +130,8 @@ download() {
     log "$url"
     log "$output_folder"
     log "$output_filename"
-    log "$output_filename"
-
-    log "$output_folder/codacy-coverage-reporter"
+    
+    chmod +x "$output_folder/codacy-coverage-reporter"
 
     cd "$output_folder"
 
