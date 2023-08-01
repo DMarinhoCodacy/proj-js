@@ -122,7 +122,7 @@ download() {
     local url="$1"
     local file_name="$2"
     local output_folder="$3"
-    local output_filename="$2"
+    local output_filename="$4"
     local checksum_url="$5"
     local original_folder="$(pwd)"
 
