@@ -143,7 +143,7 @@ download() {
 
 download_reporter() {
 
-    local binary_name="codacy-coverage-reporter-darwin"
+    local binary_name="codacy-coverage-reporter-assembly.jar"
     local reporter_path=$1
     local reporter_folder=$2
     local reporter_filename=$3
@@ -188,11 +188,11 @@ fi
 
 # Temporary folder for downloaded files
 
-CODACY_REPORTER_TMP_FOLDER="$HOME/Library/Caches/Codacy/coverage-reporter"
+CODACY_REPORTER_TMP_FOLDER=".codacy-coverage"
 
 
 # Set binary name
-reporter_filename="codacy-coverage-reporter"
+reporter_filename="codacy-coverage-reporter-assembly.jar"
 
 # Folder containing the binary
 reporter_folder="$CODACY_REPORTER_TMP_FOLDER"/"$CODACY_REPORTER_VERSION"
@@ -207,8 +207,7 @@ download_reporter "$reporter_path" "$reporter_folder" "$reporter_filename"
 
 log "$reporter_path"
 
-    chmod +x "$reporter_path"
-    run_command="$reporter_path"
+run_command="java -jar \"$reporter_path\""
 
 
 if [ -z "$run_command" ]
