@@ -135,7 +135,7 @@ download() {
 
     download_file "$url"
     checksum "$file_name" "$checksum_url"
-    chmod 777 "$original_folder"
+    chmod 777 "$output_folder/codacy-coverage-reporter"
 
     cd "$original_folder"
 }
