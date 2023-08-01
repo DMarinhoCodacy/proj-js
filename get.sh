@@ -141,13 +141,8 @@ download() {
 }
 
 download_reporter() {
-    if [ "$os_name" = "Linux" ] || [ "$os_name" = "Darwin" ]; then
-        # OS name lower case
-        suffix=$(echo "$os_name" | tr '[:upper:]' '[:lower:]')
-    else
-        suffix="assembly.jar"
-    fi
-    local binary_name="codacy-coverage-reporter-$suffix"
+
+    local binary_name="codacy-coverage-reporter-assembly.jar"
     local reporter_path=$1
     local reporter_folder=$2
     local reporter_filename=$3
@@ -192,21 +187,12 @@ fi
 
 # Temporary folder for downloaded files
 if [ -z "$CODACY_REPORTER_TMP_FOLDER" ]; then
-    if [ "$os_name" = "Linux" ]; then
-        CODACY_REPORTER_TMP_FOLDER="$HOME/.cache/codacy/coverage-reporter"
-    elif [ "$os_name" = "Darwin" ]; then
-        CODACY_REPORTER_TMP_FOLDER="$HOME/Library/Caches/Codacy/coverage-reporter"
-    else
-        CODACY_REPORTER_TMP_FOLDER=".codacy-coverage"
-    fi
+    CODACY_REPORTER_TMP_FOLDER=".codacy-coverage"
 fi
 
 # Set binary name
-if [ "$os_name" = "Linux" ] || [ "$os_name" = "Darwin" ]; then
-    reporter_filename="codacy-coverage-reporter"
-else
-    reporter_filename="codacy-coverage-reporter-assembly.jar"
-fi
+
+reporter_filename="codacy-coverage-reporter-assembly.jar"
 
 # Folder containing the binary
 reporter_folder="$CODACY_REPORTER_TMP_FOLDER"/"$CODACY_REPORTER_VERSION"
@@ -218,13 +204,7 @@ mkdir -p "$reporter_folder"
 reporter_path="$reporter_folder"/"$reporter_filename"
 
 download_reporter "$reporter_path" "$reporter_folder" "$reporter_filename"
-
-if [ "$os_name" = "Linux" ] || [ "$os_name" = "Darwin" ]; then
-    chmod +x "$reporter_path"
-    run_command="$reporter_path"
-else
-    run_command="java -jar \"$reporter_path\""
-fi
+run_command="java -jar \"$reporter_path\""
 
 if [ -z "$run_command" ]
 then
