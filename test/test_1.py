@@ -1,372 +1,646 @@
-from datetime import timedelta
 import uuid
-from fastapi.testclient import TestClient
+from decimal import Decimal
+from unittest import mock
+ 
+
+from uuid import UUID
+
 import pytest
-from apps.device.models import Device, DeviceBindingSetting
-from apps.onboarding.models import OnboardingSession
-from apps.user.models import User, UserLoginSession
+from unittest.mock import MagicMock
+
+from fastapi import HTTPException
+
+from adapters.cardworks import Cardworks
+ 
+ 
+ 
+from adapters.cardworks.cardworks.schemas import FundTransferSchema, BalanceEnquirySchema
+from adapters.cardworks.cardworks.utils.validators import BuyTransactionValidator, SellTransactionValidator, \
+    TransactionValidator
+from apps.multi_currency.models import ApprovedMultiCurrency, MultiCurrencyTransaction
+from apps.setup.models import Country, Currency
+from apps.user.schemas.mobile import BuyCurrencySchema, SellCurrencySchema
+from tests.apps.test_add_initial_data import AddInitialData
+
 from core import main
-from core.db import Base as CoreBase
 from tests.utils import get_client
 
 
 def session_setup(session):
-    CoreBase.metadata.create_all(bind=session.bind)
-    # second_user and third_user have no security_phrase and passcode
-    # session.bulk_save_objects([first_user,second_user,third_user,fourth_user, fifth_user,sixth_user])
-    session.add_all(
-        [
-            User(
-                email="jhon@gmail.com",
-                name="Jhon",
-                security_phrase="My name is Jhon Doe.",
-                passcode="13215456",
-                profile_picture="https://test.png",
-                id_number="1111111111111",
-                is_active=True,
-                phone_number="60222222222",
-                onboarding_session_id=uuid.UUID("e8034a33-c15f-43d7-9fc0-25b72223119e"),
-            ),
-            User(
-                email="Sujan@gmail.com",
-                name="Sujan",
-                id_number="1111111111111",
-                phone_number="60222222223",
-                onboarding_session_id=uuid.UUID("9aeaa4ec-ea42-4c64-b039-e81aff6207e0"),
-            ),
-            User(
-                email="Namit@gmail.com",
-                name="Jhon",
-                id_number="1111111111111",
-                phone_number="60222222224",
-                onboarding_session_id=uuid.UUID("fd8f47e8-b044-4294-bf30-814df61a24eb"),
-            ),
-            User(
-                email="Asutosh@gmail.com",
-                name="Jhon",
-                security_phrase="My name is Jhon Doe.",
-                passcode="13215456",
-                id_number="1111111111111",
-                phone_number="60222222225",
-                is_active=True,
-                onboarding_session_id=uuid.UUID("40bd7bce-4b8b-434b-b2e5-e3a0d4daf927"),
-            ),
-            User(
-                email="Abhishek@gmail.com",
-                name="Jhon",
-                security_phrase="My name is Jhon Doe.",
-                passcode="13215456",
-                id_number="1111111111111",
-                phone_number="60222222226",
-                is_active=True,
-                onboarding_session_id=uuid.UUID("7b3723a0-a4e2-4277-a64e-93a63c5e8b0b"),
-            ),
-            User(
-                email="Sachin@gmail.com",
-                name="Jhon",
-                security_phrase="My name is Jhon Doe.",
-                passcode="13215456",
-                id_number="1111111111111",
-                is_locked=True,
-                phone_number="60222222227",
-                onboarding_session_id=uuid.UUID("7b3723a0-a4e2-4277-a64e-93a63c5e8b0c"),
-            ),
-            User(
-                email="testuser@gmail.com",
-                name="Abhishek",
-                security_phrase="My name is Abhishek.",
-                id_number="1111111111111",
-                is_active=False,
-                is_locked=False,
-                phone_number="60222222228",
-                onboarding_session_id=uuid.UUID("42fd2664-39a3-4396-b1cd-ff7d16d8279d"),
-            ),
-            User(
-                email="testuser001@gmail.com",
-                name="Random",
-                security_phrase="My name is Random",
-                id_number="1111111111111",
-                is_active=True,
-                is_locked=False,
-                phone_number="60222222329",
-                onboarding_session_id=uuid.UUID("e049f40c-f9d7-47ae-bcad-ab97dcd45f1f"),
-            ),
-            User(
-                email="RohanBro@gmail.com",
-                name="Jhon",
-                security_phrase="My name is not xtranpholist.",
-                passcode="13215456",
-                id_number="1111111111111",
-                is_active=True,
-                phone_number="60222222229",
-                onboarding_session_id=uuid.UUID("8dfbcf4f-4462-4b23-9538-304077f7d657"),
-            ),
-            User(
-                id=uuid.UUID("9c7a442c-18b2-4d13-8166-908e9ac10b55"),
-                email="Dipeshdai@gmail.com",
-                name="Jhon",
-                security_phrase="My name is xtranpholist.",
-                passcode="13215456",
-                id_number="1111111111111",
-                is_active=True,
-                current_device_id="123444444444",
-                device_ids=["123444444444"],
-                phone_number="60222222230",
-                onboarding_session_id=uuid.UUID("d87b55ef-858a-48e8-955a-fd96dc534001"),
-            ),
-            User(
-                email="Goku@gmail.com",
-                name="Goku",
-                security_phrase="My name is SS.",
-                passcode="13215456",
-                id_number="1111111111111",
-                is_active=True,
-                phone_number="60222100000",
-                current_device_id="123444454444",
-                device_ids=["123444454444"],
-                onboarding_session_id=uuid.UUID("a79c1543-b0e1-4a69-993d-ed81a63f578e"),
-            ),
-            User(
-                email="Vegeta@gmail.com",
-                name="Vegeta",
-                security_phrase="My name is Prince.",
-                passcode="13215456",
-                id_number="1111111111111",
-                is_active=True,
-                phone_number="60222100001",
-                current_device_id="123556677",
-                device_ids=["123556677"],
-                onboarding_session_id=uuid.UUID("a89c1543-b0e1-4a69-993d-ed81a63f578e"),
-            ),
-            User(
-                email="dashdash@gmail.com",
-                name="Dash",
-                security_phrase="My name is Dash.",
-                passcode="13215456",
-                id_number="1111111111111",
-                is_active=True,
-                phone_number="60222227832",
-                onboarding_session_id=uuid.UUID("f57f1845-c821-4947-92dd-7dc52ccf39e4"),
-            ),
-            User(
-                email="dashdashdush@gmail.com",
-                name="Fastest speedster",
-                security_phrase="My name is Dash.",
-                passcode="13215456",
-                id_number="1111111111111",
-                is_active=True,
-                device_ids=["ASDFGHJKL"],
-                phone_number="60332227832",
-                onboarding_session_id=uuid.UUID("a14d0de2-b144-4838-93cb-32f80c38ef4f"),
-            ),
-            User(
-                id=uuid.uuid4(),
-                email="RajatDai@gmail.com",
-                name="Rajat",
-                security_phrase="My name is Singh is king.",
-                passcode="13215456",
-                id_number="1111111111111",
-                is_active=True,
-                current_device_id="123556677",
-                device_ids=None,
-                phone_number="60222222233",
-                onboarding_session_id=uuid.UUID("a9f495c1-6893-4ff2-8347-e3dc5af12af6"),
-            ),
-            User(
-                id=uuid.uuid4(),
-                email="Sigdel@gmail.com",
-                name="Sigdel",
-                security_phrase="My name is sigdel.",
-                passcode="13215456",
-                id_number="1111111111111",
-                is_active=True,
-                phone_number="60999999989",
-                onboarding_session_id=uuid.UUID("81331ed1-0f34-4f92-a8f0-ba17e07b1a18"),
-            ),
-            User(
-                id=uuid.uuid4(),
-                email="Riyaz@gmail.com",
-                name="Riyaz",
-                security_phrase="My name is MD Riyaz.",
-                passcode="13215456",
-                id_number="1111111111111",
-                is_active=False,
-                phone_number="60999999777",
-                onboarding_session_id=uuid.UUID("ece05a22-4a1d-4613-9ddb-07c391bec43a"),
-            ),
-        ]
+    from core.db import Base
+
+    Base.metadata.create_all(bind=session.bind)
+
+
+@pytest.fixture(scope="function")
+def client(pg_session_maker):
+    test_client = get_client(pg_session_maker, session_setup, app=main.app)
+    with test_client as tst_client:
+        yield tst_client
+    if hasattr(test_client.app.state, "session") and test_client.app.state.session:
+        test_client.app.state.session.close()
+
+
+@pytest.fixture(scope='module')
+def initial_data(pgs):
+    AddInitialData.test_add_needed_data(pgs)
+    country = pgs.query(Country).first()
+    sgd = Currency(
+        name="Singapore Dollar",
+        code="SGD",
+        unit=1,
+        numeric_code=702,
+        flag_code="SG",
+        order=1,
+        is_active=True,
+        country_id=country.id,
+        currency_symbol='$',
     )
-    session.commit()
-    session.add(
-        DeviceBindingSetting(
-            enable_id_number_validation=True,
-            id_number_max_validations=1,
-            invalid_otp_max_validations=1,
-            device_bind_limit=3,
-            threshold_limit=1,
-            threshold_alert_email="dipesh@8squarei.com",
-            mobile_number_bind_limit=4,
-        )
+    myr = Currency(
+        name="Malaysian Ringgit",
+        code="MYR",
+        unit=1,
+        numeric_code=458,
+        flag_code="MY",
+        order=2,
+        is_active=True,
+        country_id=country.id,
+        currency_symbol='$',
     )
-    session.commit()
-    session.add_all(
-        [
-            OnboardingSession(
-                id=uuid.UUID("ece05a22-4a1d-4613-9ddb-07c391bec43a"),
-                phone_number="60999999777",
-                id_number="991100123456",
-                email="Riyaz@gmail.com",
-                status="Topup Name Mismatch",
-                indicators={"is_topup_complete": True},
-            ),
-            OnboardingSession(
-                id=uuid.UUID("81331ed1-0f34-4f92-a8f0-ba17e07b1a18"),
-                phone_number="60999999989",
-                id_number="991100123456",
-                email="Sigdel@gmail.com",
-                indicators={"is_topup_complete": True},
-            ),
-            OnboardingSession(
-                id=uuid.UUID("a9f495c1-6893-4ff2-8347-e3dc5af12af6"),
-                phone_number="60222222233",
-                id_number="991100123456",
-                email="SinghisKing@gmail.com",
-                indicators={"is_topup_complete": True},
-            ),
-            OnboardingSession(
-                id=uuid.UUID("a89c1543-b0e1-4a69-993d-ed81a63f578e"),
-                phone_number="60222100001",
-                id_number="991100123456",
-                email="Vegeta@gmail.com",
-                indicators={"is_topup_complete": True},
-            ),
-            OnboardingSession(
-                id=uuid.UUID("a79c1543-b0e1-4a69-993d-ed81a63f578e"),
-                phone_number="60222100000",
-                id_number="991100123456",
-                email="Goku@gmail.com",
-                indicators={"is_topup_complete": True},
-            ),
-            OnboardingSession(
-                id=uuid.UUID("e8034a33-c15f-43d7-9fc0-25b72223119e"),
-                phone_number="60222222222",
-                id_number="991100123456",
-                email="pending@gmail.com",
-                indicators={"is_topup_complete": True},
-            ),
-            OnboardingSession(
-                id=uuid.UUID("9aeaa4ec-ea42-4c64-b039-e81aff6207e0"),
-                phone_number="60222222223",
-                id_number="991100123456",
-                email="Sujan@gmail.com",
-                indicators={"is_topup_complete": False},
-            ),
-            OnboardingSession(
-                id=uuid.UUID("fd8f47e8-b044-4294-bf30-814df61a24eb"),
-                phone_number="60222222224",
-                id_number="991100123456",
-                email="Namit@gmail.com",
-                indicators={"is_topup_complete": True},
-            ),
-            OnboardingSession(
-                id=uuid.UUID("40bd7bce-4b8b-434b-b2e5-e3a0d4daf927"),
-                phone_number="60222222225",
-                id_number="991100123456",
-                email="Asutosh@gmail.com",
-                indicators={"is_topup_complete": True},
-            ),
-            OnboardingSession(
-                id=uuid.UUID("7b3723a0-a4e2-4277-a64e-93a63c5e8b0b"),
-                phone_number="60222222226",
-                id_number="991100123456",
-                email="Abhishek@gmail.com",
-                indicators={"is_topup_complete": True},
-            ),
-            OnboardingSession(
-                id=uuid.UUID("42fd2664-39a3-4396-b1cd-ff7d16d8279d"),
-                phone_number="60222222228",
-                id_number="991100123456",
-                email="testuser@gmail.com",
-                indicators={"is_topup_complete": True},
-            ),
-            OnboardingSession(
-                id=uuid.UUID("e049f40c-f9d7-47ae-bcad-ab97dcd45f1f"),
-                phone_number="60222222329",
-                id_number="991100123456",
-                email="testuser001@gmail.com",
-                indicators={"is_topup_complete": True},
-            ),
-            OnboardingSession(
-                id=uuid.UUID("8dfbcf4f-4462-4b23-9538-304077f7d657"),
-                phone_number="60222222229",
-                id_number="991100123456",
-                email="Abhishek@gmail.com",
-                indicators={"is_topup_complete": True},
-            ),
-            OnboardingSession(
-                id=uuid.UUID("d87b55ef-858a-48e8-955a-fd96dc534001"),
-                phone_number="60222222230",
-                id_number="991100123456",
-                email="Abhishek@gmail.com",
-                indicators={"is_topup_complete": True},
-            ),
-            OnboardingSession(
-                id=uuid.UUID("6d6076d5-d54a-49d8-b018-f5b8e3da822a"),
-                phone_number="60222222231",
-                id_number="991100123456",
-                email="Abhishek@gmail.com",
-                indicators={"is_topup_complete": True},
-            ),
-            OnboardingSession(
-                id=uuid.UUID("f57f1845-c821-4947-92dd-7dc52ccf39e4"),
-                phone_number="60222227832",
-                id_number="991100123456",
-                email="dashdash@gmail.com",
-                indicators={"is_topup_complete": True},
-            ),
-            OnboardingSession(
-                id=uuid.UUID("a14d0de2-b144-4838-93cb-32f80c38ef4f"),
-                phone_number="60332227832",
-                id_number="991100123456",
-                email="dashdashdush@gmail.com",
-                indicators={"is_topup_complete": True},
-            ),
-        ]
+    pgs.add(sgd)
+    pgs.add(myr)
+    pgs.commit()
+    approved_sgd = ApprovedMultiCurrency(
+        currency_id=sgd.id,
+        buy_rate=12,
+        sell_rate=12,
+        visa_rate=12,
+        created_by='user-uuid'
     )
-    session.commit()
-    session.add_all(
-        [
-            Device(
-                id=1000,
-                device_id="123444444444",
-                user_ids=[
-                    uuid.UUID("9c7a442c-18b2-4d13-8166-908e9ac10b55"),
-                    uuid.uuid4(),
-                    uuid.uuid4(),
-                ],
-            ),
-            Device(id=1111, device_id="IPHONEXXXXXXS", user_ids=[uuid.uuid4()]),
-        ]
-    )
-    session.commit()
+    pgs.add(approved_sgd)
+    pgs.commit()
 
 
-@pytest.fixture(scope="module")
-def main_client(pg_session_maker):
-    client = get_client(pg_session_maker, session_setup, app=main.app)
-    with client as test_client:
-        yield test_client
-    if hasattr(client.app.state, "session") and client.app.state.session:
-        client.app.state.session.close()
+class TestBuyTransactionValidator:
+
+    def test_buy_transaction_creation(self, pgs, initial_data):
+        mock_user = MagicMock()
+        data = {
+            "beneficiary_currency_id": 702,
+            "local_rate": 12.00,
+            "total_amount": 1.00,
+            "amount": 1.00
+        }
+
+        validator = BuyTransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+ 
+ 
+ 
+        assert validator.transaction is None
+ 
+ 
+ 
+        assert validator.user == mock_user
+ 
+ 
+ 
+        assert validator.data == BuyCurrencySchema(**data)
+ 
+ 
+ 
+        assert validator.db == pgs
+ 
+ 
+ 
+        assert validator.base_currency.numeric_code == BuyTransactionValidator.BASE_CURRENCY_CODE
+ 
+ 
+ 
+        assert validator.exchange_currency_code == data["beneficiary_currency_id"]
+ 
+ 
+ 
+        assert isinstance(validator.reference_number, str) and validator.reference_number.startswith("EP")
+
+    def test_get_cw_fund_transfer_schema(self, pgs, initial_data):
+        mock_user_card = MagicMock(urn="12345", expiry_date="072025")
+        mock_user = MagicMock(user_card=mock_user_card)
+
+        data = {
+            "beneficiary_currency_id": 702,
+            "local_rate": 12.00,
+            "total_amount": 12.00,
+            "amount": 1.00
+        }
+
+        validator = BuyTransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+        fund_transfer_schema = validator.get_cw_fund_tranfer_schema()
+
+ 
+ 
+ 
+        assert isinstance(fund_transfer_schema, FundTransferSchema)
+ 
+ 
+ 
+        assert fund_transfer_schema.tranf_p_a_n == "12345"
+ 
+ 
+ 
+        assert fund_transfer_schema.expiry_date == "072025"
+ 
+ 
+ 
+        assert fund_transfer_schema.benef_p_a_n == "12345"
+ 
+ 
+ 
+        assert fund_transfer_schema.reference_no.startswith("EP")
+ 
+ 
+ 
+        assert float(fund_transfer_schema.amount) == data["total_amount"]
+ 
+ 
+ 
+        assert fund_transfer_schema.tranf_currency_code == "458"
+ 
+ 
+ 
+        assert fund_transfer_schema.benef_currency_code == "702"
+ 
+ 
+ 
+        assert float(fund_transfer_schema.benef_amount) == 1.00
+ 
+ 
+ 
+        assert fund_transfer_schema.otp_reference_no == ""
+ 
+ 
+ 
+        assert fund_transfer_schema.otp == ""
+ 
+ 
+ 
+        assert fund_transfer_schema.signed_message == ""
+ 
+ 
+ 
+        assert fund_transfer_schema.conv_rate_ind == "1"
+
+    def test_get_cw(self, pgs):
+        mock_user = MagicMock()
+        data = {
+            "beneficiary_currency_id": 702,
+            "local_rate": 12.00,
+            "total_amount": 12.00,
+            "amount": 1.00
+        }
+
+        validator = BuyTransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+        result = validator._get_cw()
+ 
+ 
+ 
+        assert isinstance(result, Cardworks)
+
+    def test_get_exchange_currency(self, pgs, initial_data):
+        mock_user = MagicMock()
+        data = {
+            "beneficiary_currency_id": 702,
+            "local_rate": 12.00,
+            "total_amount": 12.00,
+            "amount": 1.00
+        }
+
+ 
+ 
+        with pytest.raises(ValueError) as exc_info:
+            validator = TransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+            validator._TransactionValidator__get_exchange_currency()
+
+    def test_validate(self, pgs, initial_data):
+        mock_user = MagicMock()
+        data = {
+            "beneficiary_currency_id": 702,
+            "local_rate": 12.00,
+            "total_amount": 12.00,
+            "amount": 1.00
+        }
+        validator = BuyTransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+        validator.validate_rate = MagicMock(return_value=True)
+        validator.validate_reason = MagicMock(return_value=True)
+        validator.validate_total_amount = MagicMock(return_value=True)
+        validator.validate_sufficient_amount = MagicMock(return_value=True)
+
+ 
+ 
+ 
+        assert validator.validate() == True
+
+    def test_validate_rate(self, pgs, initial_data):
+        mock_user = MagicMock()
+        data = {
+            "beneficiary_currency_id": 702,
+            "local_rate": 12.00,
+            "total_amount": 1.00,
+            "amount": 1.00
+        }
+
+        buy_validator = BuyTransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+ 
+ 
+ 
+        assert buy_validator.validate_rate() == True
+
+        data['local_rate'] = 1.00
+        buy_validator = BuyTransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+        with pytest.raises(HTTPException):
+            buy_validator.validate_rate()
+
+    def test_validate_reason(self, pgs, initial_data):
+        mock_user = MagicMock()
+        data = {
+            "beneficiary_currency_id": 702,
+            "local_rate": 12.00,
+            "total_amount": 1.00,
+            "amount": 1.00
+        }
+
+        buy_validator = BuyTransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+ 
+ 
+ 
+        assert buy_validator.validate_reason() == True
+
+        data['amount'] = 3500
+        buy_validator = BuyTransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+
+        with pytest.raises(HTTPException):
+ 
+ 
+ 
+            assert buy_validator.validate_reason()
+
+        data['reason'] = 'Bill Utility'
+        buy_validator = BuyTransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+        assert buy_validator.validate_reason() == True
+
+    def test_validate_amount(self, pgs, initial_data):
+        mock_user = MagicMock()
+        data = {
+            "beneficiary_currency_id": 702,
+            "local_rate": 12.00,
+            "total_amount": 24.00,
+            "amount": 2.00
+        }
+
+        buy_validator = BuyTransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+ 
+ 
+ 
+        assert buy_validator.validate_total_amount() == True
+
+        data['total_amount'] = 25.00
+        buy_validator = BuyTransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+        with pytest.raises(HTTPException):
+            buy_validator.validate_total_amount()
+
+    def test_validate_sufficient_amount(self, pgs, initial_data):
+        mock_user = MagicMock()
+        data = {
+            "beneficiary_currency_id": 702,
+            "local_rate": 12.00,
+            "total_amount": 24.00,
+            "amount": 2.00
+        }
+
+        buy_validator = BuyTransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+        # buy_validator.__user_balance = MagicMock(return_value=50)
+        with mock.patch.object(BuyTransactionValidator, '_BuyTransactionValidator__user_balance',
+                               return_value=50):
+ 
+ 
+ 
+            assert buy_validator.validate_sufficient_amount() == True
+
+        with mock.patch.object(BuyTransactionValidator, '_BuyTransactionValidator__user_balance',
+                               return_value=20):
+            with pytest.raises(HTTPException):
+                buy_validator.validate_sufficient_amount()
+
+    def test_create_transaction(self, pgs, initial_data):
+        mock_user = MagicMock(id=uuid.uuid1())
+        data = {
+            "beneficiary_currency_id": 702,
+            "local_rate": 12.00,
+            "total_amount": 24.00,
+            "amount": 2.00,
+            "reason": "Utility Bill"
+        }
+
+        buy_validator = BuyTransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+        buy_validator.create_transaction()
+ 
+ 
+ 
+        assert len(pgs.query(MultiCurrencyTransaction).all()) == 1
+
+    def test_update_status(self, pgs, initial_data):
+        mock_user = MagicMock(id=uuid.uuid1())
+        data = {
+            "beneficiary_currency_id": 702,
+            "local_rate": 12.00,
+            "total_amount": 24.00,
+            "amount": 2.00,
+            "reason": "Utility Bill"
+        }
+
+        buy_validator = BuyTransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+        transaction = buy_validator.create_transaction()
+        buy_validator.update_status('Success')
+        pgs.refresh(transaction)
+ 
+ 
+ 
+        assert transaction.status == 'Success'
+
+    def test_get_tranferior_code(self, pgs, initial_data):
+        mock_user = MagicMock(id=uuid.uuid1())
+        data = {
+            "beneficiary_currency_id": 702,
+            "local_rate": 12.00,
+            "total_amount": 24.00,
+            "amount": 2.00,
+            "reason": "Utility Bill"
+        }
+        buy_validator = BuyTransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+        result = buy_validator._get_tranferior_code()
+ 
+ 
+ 
+        assert result == buy_validator.base_currency.numeric_code
+
+    def test_get_beniferior_code(self, pgs, initial_data):
+        mock_user = MagicMock(id=uuid.uuid1())
+        data = {
+            "beneficiary_currency_id": 702,
+            "local_rate": 12.00,
+            "total_amount": 24.00,
+            "amount": 2.00,
+            "reason": "Utility Bill"
+        }
+        buy_validator = BuyTransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+        result = buy_validator._get_beniferior_code()
+ 
+ 
+ 
+        assert result == buy_validator.exchange_currency.currency.numeric_code
+
+    def test_get_total_amount(self, pgs, initial_data):
+        mock_user = MagicMock(id=uuid.uuid1())
+        data = {
+            "beneficiary_currency_id": 702,
+            "local_rate": 12.00,
+            "total_amount": 24.00,
+            "amount": 2.00,
+            "reason": "Utility Bill"
+        }
+        buy_validator = BuyTransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+        result = buy_validator._get_total_amount()
+ 
+ 
+ 
+        assert result == data["total_amount"]
+
+    def test_get_transferior_total_amount(self, pgs, initial_data):
+        mock_user = MagicMock(id=uuid.uuid1())
+        data = {
+            "beneficiary_currency_id": 702,
+            "local_rate": 12.00,
+            "total_amount": 24.00,
+            "amount": 2.00,
+            "reason": "Utility Bill"
+        }
+        buy_validator = BuyTransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+        result = buy_validator._get_transferior_total_amount()
+        assert result == data["total_amount"]
+
+    def test_get_beniferior_total_amount(self, pgs, initial_data):
+        mock_user = MagicMock(id=uuid.uuid1())
+        data = {
+            "beneficiary_currency_id": 702,
+            "local_rate": 12.00,
+            "total_amount": 24.00,
+            "amount": 2.00,
+            "reason": "Utility Bill"
+        }
+        buy_validator = BuyTransactionValidator(mock_user, BuyCurrencySchema(**data), pgs)
+        result = buy_validator._get_beniferior_total_amount()
+ 
+ 
+ 
+        assert result == data["amount"]
 
 
-class TestUserLoginViewSet:
-    # TODO test_create_update_device_token
+def sell_data():
+    data = {
+        "transferor_currency_code": 702.00,
+        "amount": 30.00,
+        "reason": "Utility Bill"
+    }
+    return data
 
-    def test_login_invalid_user(self, main_client: TestClient):
-        response = main_client.post(
-            "user/login/",
-            headers={"device-id": "456ASfsdf789"},
-            json={"phone_number": "601111456785"},
-        )
-        assert response.status_code == 400
+
+class TestSellTransactionValidator:
+    def test_sell_transaction_creation(self, pgs, initial_data):
+        mock_user = MagicMock()
+        data = {
+            "transferor_currency_code": 702.00,
+            "amount": 30.00
+        }
+
+        validator = SellTransactionValidator(mock_user, SellCurrencySchema(**data), pgs)
+        assert validator.transaction is None
+        assert validator.user == mock_user
+ 
+ 
+ 
+        assert validator.data == SellCurrencySchema(**data)
+        assert validator.db == pgs
+ 
+ 
+ 
+        assert validator.base_currency.numeric_code == SellTransactionValidator.BASE_CURRENCY_CODE
+ 
+ 
+ 
+        assert validator.exchange_currency_code == data["transferor_currency_code"]
+        assert isinstance(validator.reference_number, str) and validator.reference_number.startswith("EP")
+
+    def test_get_cw_fund_transfer_schema(self, pgs, initial_data):
+        # Mocking user and user_card objects
+        mock_user_card = MagicMock(urn="12345", expiry_date="072025")
+        mock_user = MagicMock(user_card=mock_user_card)
+
+        # Create a mock data dictionary
+        data = {
+            "transferor_currency_code": 702.00,
+            "amount": 30.00
+        }
+
+        # Create the TransactionValidator object and call the method to get the FundTransferSchema
+        validator = SellTransactionValidator(mock_user, SellCurrencySchema(**data), pgs)
+        fund_transfer_schema = validator.get_cw_fund_tranfer_schema()
+
+        # Check if the FundTransferSchema object is created with the expected values
+        assert isinstance(fund_transfer_schema, FundTransferSchema)
+        assert fund_transfer_schema.tranf_p_a_n == "12345"
+        assert fund_transfer_schema.expiry_date == "072025"
+        assert fund_transfer_schema.benef_p_a_n == "12345"
+        assert fund_transfer_schema.reference_no.startswith("EP")
+ 
+ 
+ 
+        assert float(fund_transfer_schema.amount) == data["amount"]
+ 
+ 
+ 
+        assert fund_transfer_schema.tranf_currency_code == "702"
+ 
+ 
+ 
+        assert fund_transfer_schema.benef_currency_code == "458"
+ 
+ 
+ 
+        assert float(fund_transfer_schema.benef_amount) == data["amount"] * validator.exchange_currency.buy_rate
+        assert fund_transfer_schema.otp_reference_no == ""
+        assert fund_transfer_schema.otp == ""
+        assert fund_transfer_schema.signed_message == ""
+        assert fund_transfer_schema.conv_rate_ind == "1"
+
+    def test_validate_balance(self, pgs, initial_data):
+        mock_user = MagicMock()
+        data = {
+            "transferor_currency_code": 702.00,
+            "amount": 30.00
+        }
+
+        sell_validator = SellTransactionValidator(mock_user, SellCurrencySchema(**data), pgs)
+
+        with mock.patch.object(SellTransactionValidator, '_SellTransactionValidator__get_total_balance',
+                               return_value=50):
+ 
+ 
+ 
+            assert sell_validator.validate_balance() == True
+
+        with mock.patch.object(SellTransactionValidator, '_SellTransactionValidator__get_total_balance',
+                               return_value=20):
+            with pytest.raises(HTTPException):
+                sell_validator.validate_balance()
+
+    def test_create_transaction(self, pgs, initial_data):
+        mock_user = MagicMock(id=uuid.uuid1())
+        data = sell_data()
+
+        sell_validator = SellTransactionValidator(mock_user, SellCurrencySchema(**data), pgs)
+        sell_validator.create_transaction()
+ 
+ 
+ 
+        assert len(pgs.query(MultiCurrencyTransaction).filter_by(customer_id=mock_user.id).all()) == 1
+
+    def test_update_status(self, pgs, initial_data):
+        mock_user = MagicMock(id=uuid.uuid1())
+        data = sell_data()
+
+        sell_validator = SellTransactionValidator(mock_user, SellCurrencySchema(**data), pgs)
+        transaction = sell_validator.create_transaction()
+        sell_validator.update_status('Failed')
+        pgs.refresh(transaction)
+ 
+ 
+ 
+        assert transaction.status == 'Failed'
+
+    def test_validate(self, pgs, initial_data):
+        validator = self.get_sell_validator(pgs)
+        validator.validate_balance = MagicMock(return_value=True)
+        validator.validate_reason = MagicMock(return_value=True)
+
+        assert validator.validate() == True
+
+    def get_sell_validator(self, pgs):
+        mock_user = MagicMock()
+        data = sell_data()
+        validator = SellTransactionValidator(mock_user, SellCurrencySchema(**data), pgs)
+        return validator
+
+    def test_get_cw(self, pgs):
+        validator = self.get_sell_validator(pgs)
+        result = validator._get_cw()
+
+        assert isinstance(result, Cardworks)
+
+    def test_get_tranferior_code(self, pgs, initial_data):
+        validator = self.get_sell_validator(pgs)
+        result = validator._get_tranferior_code()
+ 
+ 
+ 
+        assert result == validator.exchange_currency.currency.numeric_code
+
+    def test_get_beniferior_code(self, pgs, initial_data):
+        validator = self.get_sell_validator(pgs)
+        result = validator._get_beniferior_code()
+ 
+ 
+ 
+        assert result == validator.base_currency.numeric_code
+
+    def test_get_transferior_total_amount(self, pgs, initial_data):
+        validator = self.get_sell_validator(pgs)
+        result = validator._get_transferior_total_amount()
+        data = sell_data()
+ 
+ 
+ 
+        assert result == Decimal(data["amount"])
+
+    def test_get_beniferior_total_amount(self, pgs, initial_data):
+        validator = self.get_sell_validator(pgs)
+        result = validator._get_beniferior_total_amount()
+        data = sell_data()
+ 
+ 
+ 
+        assert result == Decimal(data["amount"] * validator.exchange_currency.buy_rate)
+
+    def test_validate_reason(self, pgs, initial_data):
+        mock_user = MagicMock()
+        data = {
+            "transferor_currency_code": 702.00,
+            "amount": 30.00
+        }
+
+        sell_validator = SellTransactionValidator(mock_user, SellCurrencySchema(**data), pgs)
+ 
+ 
+ 
+        assert sell_validator.validate_reason() == True
+
+        data['amount'] = 3500
+        sell_validator = SellTransactionValidator(mock_user, SellCurrencySchema(**data), pgs)
+
+        with pytest.raises(HTTPException):
+ 
+ 
+ 
+            assert sell_validator.validate_reason()
+
+        data['reason'] = 'Bill Utility'
+        sell_validator = SellTransactionValidator(mock_user, SellCurrencySchema(**data), pgs)
+        assert sell_validator.validate_reason() == True
