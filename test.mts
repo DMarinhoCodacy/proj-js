@@ -23,6 +23,69 @@ class CommentBox extends React.Component<{ url: string, pollInterval: number}, C
       error: (xhr, status, err) => console.error(status, err)
     })
   }
+  fetchComments() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: (data) => this.setState({ data: data }),
+      error: (xhr, status, err) => console.error(status, err)
+    })
+  }
+  fetchComments() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: (data) => this.setState({ data: data }),
+      error: (xhr, status, err) => console.error(status, err)
+    })
+  }
+  fetchComments() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: (data) => this.setState({ data: data }),
+      error: (xhr, status, err) => console.error(status, err)
+    })
+  }
+  fetchComments() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: (data) => this.setState({ data: data }),
+      error: (xhr, status, err) => console.error(status, err)
+    })
+  }
+  fetchComments() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: (data) => this.setState({ data: data }),
+      error: (xhr, status, err) => console.error(status, err)
+    })
+  }
+  fetchComments() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: (data) => this.setState({ data: data }),
+      error: (xhr, status, err) => console.error(status, err)
+    })
+  }
+  fetchComments() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: (data) => this.setState({ data: data }),
+      error: (xhr, status, err) => console.error(status, err)
+    })
+  }
   componentDidMount() {
     this.fetchComments();
     setInterval(this.fetchComments.bind(this), this.props.pollInterval);
