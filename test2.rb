@@ -111,5 +111,3 @@ describe Mailers::Braze::User::AccountLocked do
     end
   end
 end
-
-
