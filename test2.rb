@@ -108,8 +108,7 @@ describe Mailers::Braze::User::AccountLocked do
       allow(branch).to receive(:get_link).with('/dl/magic_login?token=server_token').and_return(nil)
       allow(GtSettings).to receive(:homepage_url).and_return('https://gametime.co')
       expect(subject.send(:deeplink)).to eq('https://gametime.co/dl/magic_login?token=server_token')
+      teste
     end
   end
 end
-
-
