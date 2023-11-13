@@ -27,7 +27,7 @@ excluded:
   - LocalizationHelper
   - SetappFeatureFlags/Tests/SetappFeatureFlagsTests
   - "*/Package3.swift"
-  - "*.generated.swift"
+  - "Package3.generated.swift"
 
 opt_in_rules: # Enabled rules are uncommented, and disabled are commented.
   # - anonymous_argument_in_multiline_closure
