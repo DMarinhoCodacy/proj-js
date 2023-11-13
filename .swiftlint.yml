@@ -26,7 +26,7 @@ excluded:
   - TestingService
   - LocalizationHelper
   - SetappFeatureFlags/Tests/SetappFeatureFlagsTests
-  - "**/Package2.swift"
+  - "**/Package3.swift"
   - "*.generated.swift"
 
 opt_in_rules: # Enabled rules are uncommented, and disabled are commented.
