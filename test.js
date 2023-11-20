@@ -1,1 +1,3 @@
-val cenas = "cenas"
+function msg(){  
+    alert("Hello World");  
+   }  
