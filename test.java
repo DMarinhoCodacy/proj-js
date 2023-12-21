@@ -1,6 +1,6 @@
 public class checkstyle {
 
-    @SuppressWarnings("all")
+    @SuppressWarnings("illegalcatch")
     public void importantMethod() {
         try {
             throw new RuntimeException("error");
