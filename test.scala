@@ -16,3 +16,33 @@ object HealthCheckHandler extends com.codacy.listener.service.specification.heal
     } yield respond.Ok(HealthCheck("I'm all good, thank you"))
 
 }
+object HealthCheckHandler extends com.codacy.listener.service.specification.healthCheck.HealthCheckHandler[IO] {
+
+  private val logger: SelfAwareStructuredLogger[IO] = LoggerFactory[IO].getLogger
+
+  override def healthCheck(respond: HealthCheckResponse.type)(): IO[HealthCheckResponse] =
+    for {
+      _ <- logger.debug("I'm all good, thank you")
+    } yield respond.Ok(HealthCheck("I'm all good, thank you"))
+
+}
+object HealthCheckHandler extends com.codacy.listener.service.specification.healthCheck.HealthCheckHandler[IO] {
+
+  private val logger: SelfAwareStructuredLogger[IO] = LoggerFactory[IO].getLogger
+
+  override def healthCheck(respond: HealthCheckResponse.type)(): IO[HealthCheckResponse] =
+    for {
+      _ <- logger.debug("I'm all good, thank you")
+    } yield respond.Ok(HealthCheck("I'm all good, thank you"))
+
+}
+object HealthCheckHandler extends com.codacy.listener.service.specification.healthCheck.HealthCheckHandler[IO] {
+
+  private val logger: SelfAwareStructuredLogger[IO] = LoggerFactory[IO].getLogger
+
+  override def healthCheck(respond: HealthCheckResponse.type)(): IO[HealthCheckResponse] =
+    for {
+      _ <- logger.debug("I'm all good, thank you")
+    } yield respond.Ok(HealthCheck("I'm all good, thank you"))
+
+}

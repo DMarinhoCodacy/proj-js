@@ -1,0 +1,42 @@
+2024.01.17 21:41:42 INFO  Started: Metals version 1.2.0 in folders '/Users/davidmarinho/dev/proj-js' for client Visual Studio Code 1.85.1.
+2024.01.17 21:41:45 INFO  no build target found for /Users/davidmarinho/dev/proj-js/test.scala. Using presentation compiler with project's scala-library version: 3.3.1
+2024.01.17 21:41:47 INFO  Running List(/usr/local/bin/scala-cli, setup-ide, /Users/davidmarinho/dev/proj-js)
+2024.01.17 21:41:48 INFO  Attempting to connect to the build server...
+2024.01.17 21:41:48 INFO  Running BSP server List(/usr/local/bin/scala-cli, bsp, --json-options, /Users/davidmarinho/dev/proj-js/.scala-build/ide-options-v2.json, /Users/davidmarinho/dev/proj-js)
+2024.01.17 21:41:48 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /Users/davidmarinho/dev/proj-js/.metals/bsp.trace.json or /Users/davidmarinho/Library/Caches/org.scalameta.metals/bsp.trace.json
+2024.01.17 21:41:49 INFO  BSP server: Checking https://github.com/coursier/jvm-index/raw/master/index.json
+2024.01.17 21:41:49 INFO  BSP server: Checked https://github.com/coursier/jvm-index/raw/master/index.json
+2024.01.17 21:41:49 INFO  BSP server: Downloading https://github.com/coursier/jvm-index/raw/master/index.json
+2024.01.17 21:41:49 INFO  BSP server: Downloaded https://github.com/coursier/jvm-index/raw/master/index.json
+2024.01.17 21:41:50 INFO  BSP server: Downloading https://repo1.maven.org/maven2/io/github/alexarchambault/bleep/bloop-frontend_2.12/1.5.11-sc-2/bloop-frontend_2.12-1.5.11-sc-2.pom
+2024.01.17 21:41:50 INFO  BSP server: Downloaded https://repo1.maven.org/maven2/io/github/alexarchambault/bleep/bloop-frontend_2.12/1.5.11-sc-2/bloop-frontend_2.12-1.5.11-sc-2.pom
+2024.01.17 21:41:50 INFO  BSP server: Downloading https://repo1.maven.org/maven2/io/github/alexarchambault/bleep/bloop-backend_2.12/1.5.11-sc-2/bloop-backend_2.12-1.5.11-sc-2.pom
+2024.01.17 21:41:50 INFO  BSP server: Downloaded https://repo1.maven.org/maven2/io/github/alexarchambault/bleep/bloop-backend_2.12/1.5.11-sc-2/bloop-backend_2.12-1.5.11-sc-2.pom
+2024.01.17 21:41:50 INFO  BSP server: Downloading https://repo1.maven.org/maven2/io/github/alexarchambault/bleep/bloop-shared_2.12/1.5.11-sc-2/bloop-shared_2.12-1.5.11-sc-2.pom
+2024.01.17 21:41:50 INFO  BSP server: Downloaded https://repo1.maven.org/maven2/io/github/alexarchambault/bleep/bloop-shared_2.12/1.5.11-sc-2/bloop-shared_2.12-1.5.11-sc-2.pom
+2024.01.17 21:41:50 INFO  BSP server: Downloading https://repo1.maven.org/maven2/io/github/alexarchambault/bleep/bloop-shared_2.12/1.5.11-sc-2/bloop-shared_2.12-1.5.11-sc-2.jar
+2024.01.17 21:41:50 INFO  BSP server: Downloading https://repo1.maven.org/maven2/io/github/alexarchambault/bleep/bloop-backend_2.12/1.5.11-sc-2/bloop-backend_2.12-1.5.11-sc-2.jar
+2024.01.17 21:41:50 INFO  BSP server: Downloading https://repo1.maven.org/maven2/io/github/alexarchambault/bleep/bloop-frontend_2.12/1.5.11-sc-2/bloop-frontend_2.12-1.5.11-sc-2.jar
+2024.01.17 21:41:50 INFO  BSP server: Downloaded https://repo1.maven.org/maven2/io/github/alexarchambault/bleep/bloop-shared_2.12/1.5.11-sc-2/bloop-shared_2.12-1.5.11-sc-2.jar
+2024.01.17 21:41:50 INFO  BSP server: Downloaded https://repo1.maven.org/maven2/io/github/alexarchambault/bleep/bloop-backend_2.12/1.5.11-sc-2/bloop-backend_2.12-1.5.11-sc-2.jar
+2024.01.17 21:41:52 INFO  BSP server: Downloaded https://repo1.maven.org/maven2/io/github/alexarchambault/bleep/bloop-frontend_2.12/1.5.11-sc-2/bloop-frontend_2.12-1.5.11-sc-2.jar
+2024.01.17 21:41:52 INFO  BSP server: Starting compilation server
+2024.01.17 21:41:54 INFO  time: Connected to build server in 6.57s
+2024.01.17 21:41:54 INFO  Connected to Build server: scala-cli v1.0.6
+2024.01.17 21:41:55 INFO  compiling proj-js_bd2c96d2de (1 scala source and 2 java sources)
+2024.01.17 21:41:57 INFO  time: Imported build in 3.02s
+2024.01.17 21:41:57 INFO  compiling proj-js_bd2c96d2de (1 scala source and 2 java sources)
+2024.01.17 21:41:57 INFO  time: compiled proj-js_bd2c96d2de in 0.2s
+2024.01.17 21:41:58 INFO  time: indexed workspace in 0.87s
+2024.01.17 21:41:58 INFO  Cancelling compilation on scala-cli server
+2024.01.17 21:41:58 INFO  compiling proj-js_bd2c96d2de (1 scala source and 2 java sources)
+2024.01.17 21:41:58 INFO  time: compiled proj-js_bd2c96d2de in 0.32s
+2024.01.17 21:41:59 INFO  time: Imported build in 0.37s
+2024.01.17 21:41:58 INFO  compiling proj-js_bd2c96d2de (1 scala source and 2 java sources)
+2024.01.17 21:42:00 INFO  compiling proj-js_bd2c96d2de (1 scala source and 2 java sources)
+2024.01.17 21:42:00 INFO  time: indexed workspace in 1.24s
+2024.01.17 21:42:00 INFO  time: compiled proj-js_bd2c96d2de in 0.64s
+2024.01.17 21:42:00 INFO  compiling proj-js_bd2c96d2de (1 scala source and 2 java sources)
+2024.01.17 21:42:01 INFO  time: compiled proj-js_bd2c96d2de in 0.2s
+2024.01.17 21:46:31 INFO  compiling proj-js_bd2c96d2de (1 scala source and 2 java sources)
+2024.01.17 21:46:31 INFO  time: compiled proj-js_bd2c96d2de in 0.18s
