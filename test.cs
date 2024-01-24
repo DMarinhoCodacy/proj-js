@@ -22,8 +22,8 @@ namespace LSports.Robots.ProvidersCommon.OneXBet.Logic.MarketHandlers
 
         protected override bool TryAddBet(ProviderMarket providerMarket, ProviderBet providerBet)
         {
-
-            if (string.IsNullOrEmpty(providerBet?.Name) || providerBet.Name.CompareContent("draw"))
+            providerBet.Name test = null;
+            if (string.IsNullOrEmpty(test) || providerBet.Name.CompareContent("draw"))
             {
                 return false;
             }
