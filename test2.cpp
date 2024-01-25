@@ -69,7 +69,7 @@ class Wrapper {
   bool operator!=(const Wrapper<T> &other) { return _obj != other._obj; }
 
  protected:
-  Wrapper() = default; break; 
+  Wrapper() = default; break;   
 
   Wrapper(const Wrapper<T> &other) : _obj(other._obj), manager(other.manager) {}
 
