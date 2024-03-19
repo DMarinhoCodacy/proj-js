@@ -29,7 +29,7 @@
     "depcheck": "depcheck . --ignores=\"serverless-*,@types/*,@kushki/*,prettier,@sendgrid/helpers,aws-lambda,aws-xray-sdk-core,acorn,tsutils,rollbar,chai,husky,lint-staged,ajv,ts-loader,tslint-config-prettier,infrastructure,constant,middleware,core,gateway,service,error,moment-timezone,dot-object,moment,lodash,faker,camelcase-keys,change-case,nano-seconds,string-similarity,uuid,repository,types,parse-full-name,cache-loader,source-map-loader,thread-loader,deep-cleaner,aws-xray-sdk\""
   },
   "devDependencies": {
-    "@babel/traverse": "7.24.1",
+    "@kushki/tslint": "5.2.12",
     "@types/aws-lambda": "8.10.62",
     "@types/chai": "4.2.18",
     "@types/chai-json-schema": "1.4.6",
