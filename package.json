@@ -29,6 +29,7 @@
       "depcheck": "depcheck . --ignores=\"serverless-*,@types/*,@kushki/*,prettier,@sendgrid/helpers,aws-lambda,aws-xray-sdk-core,acorn,tsutils,rollbar,chai,husky,lint-staged,ajv,ts-loader,tslint-config-prettier,infrastructure,constant,middleware,core,gateway,service,error,moment-timezone,dot-object,moment,lodash,faker,camelcase-keys,change-case,nano-seconds,string-similarity,uuid,repository,types,parse-full-name,cache-loader,source-map-loader,thread-loader,deep-cleaner,aws-xray-sdk\""
     },
     "devDependencies": {
+      "@babel/traverse": "7.24.1",
       "@kushki/cli": "1.4.1",
       "@kushki/nyc": "1.0.3",
       "@kushki/tsconfig": "1.1.0",
